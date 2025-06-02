@@ -8,8 +8,43 @@ let todoArray = [];
 let todoIndex = 0;
 let todoTextBox = document.getElementById("newTodo");
 
-
 // Check local storage for persistent tasks
+let storage = localStorage.getItem("todoArray");
+if (storage != null) {
+	todoIndex = parseInt(localStorage.getItem("todoIndex"));
+	todoArray = JSON.parse(storage);
+	todoArray.forEach(element => {
+		switch (element.completed) {
+			case false:
+				if (element.deleted == false) {
+					var newRow = document.createElement("tr");
+					newRow.id = 'task' + element.id;
+					newRow.className = 'task';
+					newRow.innerHTML = `
+						<th scope="row"><span class="notDone">&#9744;</span></th>
+						<td>` + element.task + `</td>
+						<td><span class="delete">&#10008;</span></td>`;
+					todoTable.appendChild(newRow);
+				}
+				break;
+			case true:
+				if (element.deleted == false) {
+					var newRow = document.createElement("tr");
+					newRow.id = 'task' + element.id;
+					newRow.className = 'task';
+					newRow.innerHTML = `
+						<th scope="row"><span class="notDone">&#9745;</span></th>
+						<td>` + element.task + `</td>
+						<td><span class="delete">&#10008;</span></td>`;
+					doneTable.appendChild(newRow);
+				}
+				break;
+			default:
+				fireToast("There was an issue with the saved local storage!\nClear local storage");
+				break;
+		}
+	});
+}
 
 // setup listeners for both lists
 todoList.addEventListener('click', (caller) => {
@@ -18,7 +53,6 @@ todoList.addEventListener('click', (caller) => {
 	var taskParent = callerNode.closest(".task"); // Find closest parent with the .task class
 	var callerID = taskParent.id.substring(4);
 	var callerClass = callerNode.className;
-	console.log(callerNode.className);
 	switch (callerClass) {
 		case "notDone":
 			doneTodo(callerID);
@@ -84,6 +118,8 @@ function addNewTodo (taskText) {
 		<td>` + taskText + `</td>
 		<td><span class="delete">&#10008;</span></td>`;
 	todoTable.appendChild(newRow);
+	localStorage.setItem("todoArray", JSON.stringify(todoArray));
+	localStorage.setItem("todoIndex", todoIndex);
 	todoIndex += 1;
 	fireToast('New Task added!');
 }
@@ -93,6 +129,9 @@ function doneTodo (taskIndex) {
 	var moveID = 'task' + taskIndex;
 	var moveTask = document.getElementById(moveID);
 	doneTable.appendChild(moveTask);
+	var tempTask = todoArray.find((task) => task.id == taskIndex);
+	tempTask.completed = true;
+	localStorage.setItem("todoArray", JSON.stringify(todoArray));
 	fireToast("Task Completed!!");
 	// Modify array
 }
@@ -102,6 +141,9 @@ function undoneTodo (taskIndex) {
 	var moveID = 'task' + taskIndex;
 	var moveTask = document.getElementById(moveID);
 	todoTable.appendChild(moveTask);
+	var tempTask = todoArray.find((task) => task.id == taskIndex);
+	tempTask.completed = false;
+	localStorage.setItem("todoArray", JSON.stringify(todoArray));
 	fireToast("Task unCompleted!!");
 	// Modify array
 }
@@ -111,6 +153,9 @@ function deleteTodo(taskIndex) {
 	var moveID = 'task' + taskIndex;
 	var moveTask = document.getElementById(moveID);
 	moveTask.remove();
+	var tempTask = todoArray.find((task) => task.id == taskIndex);
+	tempTask.deleted = true;
+	localStorage.setItem("todoArray", JSON.stringify(todoArray));
 	fireToast("Task Deleted!!");
 	// Modify array
 }
