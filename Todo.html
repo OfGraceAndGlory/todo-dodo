@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Todo-dodo</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<meta name="description" content="" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.jade.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+	<link rel="icon" href="favicon.png">
+	<link rel="stylesheet" type="text/css" href="todo.css">
+</head>
+
+<body>
+	<main class="container">
+	<h1>Todo-dodo List</h1>
+		<form>
+			<fieldset role="group">
+				<input name="newTodo" id="newTodo" type="text" placeholder="Enter a new task" />
+				<input type="button" id="addTodo" value="Add Task" />
+			</fieldset>
+		</form>
+		<div>
+			<h2>Todo Tasks:</h2>
+			<hr />
+				<table id="todoList" class="striped">
+					<col style="width: 10%;">
+					<col style="width: 80%;">
+					<col style="width: 10%;">
+					<thead>
+						<tr>
+							<th scope="col">Complete</th>
+							<th scope="col">Task</th>
+							<th scope="col">Delete</th>
+						</tr>
+					</thead>
+					<tbody id="todoTable">
+						<tr id="task0" class="task">
+							<th scope="row"><span class="notDone">&#9744;</span></th>
+							<td>Looks like there is nothing here!?</td>
+							<td><span class="delete">&#10008;</span></td>
+						</tr>
+					</tbody>
+				</table>
+			<hr />
+			<details>
+				<summary>
+				Completed tasks
+				</summary>
+				<table id="doneList" class="striped">
+					<col style="width: 10%;">
+					<col style="width: 80%;">
+					<col style="width: 10%;">
+					<thead>
+						<tr>
+							<th scope="col">Complete</th>
+							<th scope="col">Task</th>
+							<th scope="col">Delete</th>
+						</tr>
+					</thead>
+					<tbody id="doneTable">
+						<tr id="task1" class="task">
+							<th scope="row"><span class="done">&#9745;</span></th>
+							<td>Looks like there is nothing here!?</td>
+							<td><span class="delete">&#10008;</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</details>
+		</div>
+	</main>
+  	<script src="Todo.js"></script>
+  	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</body>
+</html>

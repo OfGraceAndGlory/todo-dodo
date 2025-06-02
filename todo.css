@@ -1,0 +1,18 @@
+
+
+.notDone {
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+
+.done {
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+
+.delete {
+    color: red;
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+ 
