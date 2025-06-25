@@ -8,6 +8,7 @@ let todoArray = [];
 let todoIndex = 0;
 let todoTextBox = document.getElementById("newTodo");
 
+/*
 // Check local storage for persistent tasks
 let storage = localStorage.getItem("todoArray");
 if (storage != null) {
@@ -45,7 +46,9 @@ if (storage != null) {
 		}
 	});
 }
+*/
 
+/*
 // setup listeners for both lists
 todoList.addEventListener('click', (caller) => {
 	console.log(caller.target);
@@ -65,7 +68,9 @@ todoList.addEventListener('click', (caller) => {
 			break;
 	}
 })
+*/
 
+/*
 doneList.addEventListener('click', (caller) => {
 	console.log(caller.target);
 	var callerNode = caller.target;
@@ -85,7 +90,9 @@ doneList.addEventListener('click', (caller) => {
 			break;
 	}
 })
+*/
 
+/*
 // Listener for Add Task button
 document.getElementById("addTodo").addEventListener('click', () => {
 	// Verify box IS NOT empty before proceeding
@@ -99,6 +106,7 @@ document.getElementById("addTodo").addEventListener('click', () => {
 	
 	// console.log(todoArray);
 })
+*/
 
 
 function addNewTodo (taskText) {

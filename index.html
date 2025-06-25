@@ -9,12 +9,13 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 	<link rel="icon" href="favicon.png">
 	<link rel="stylesheet" type="text/css" href="todo.css">
+	<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
 <body>
 	<main class="container">
 	<h1>Todo-dodo List</h1>
-		<form>
+		<form @submit.prevent="addNewTodo">
 			<fieldset role="group">
 				<input name="newTodo" id="newTodo" type="text" placeholder="Enter a new task" />
 				<input type="button" id="addTodo" value="Add Task" />
@@ -34,7 +35,12 @@
 							<th scope="col">Delete</th>
 						</tr>
 					</thead>
-					<tbody id="todoTable">
+					<tbody x-data="{tL : $store.todoList.list}" id="todoTable">
+						<template x-for="item in tL">
+							<th scope="row"><span @click="tickClicked" class="notDone">&#9744;</span></th>
+							<td x-text="item.task"></td>
+							<td><span @click="removeClicked" class="delete">&#10008;</span></td>
+						</template>
 						
 					</tbody>
 				</table>
@@ -61,7 +67,67 @@
 			</details>
 		</div>
 	</main>
-  	<script src="Todo.js"></script>
+  	<script>
+		let todoTextBox = document.getElementById("newTodo");
+		let todoList = document.getElementById("todoList");
+		let todoTable = document.getElementById("todoTable");
+		let doneList = document.getElementById("doneList");
+		let todoArray = [];
+			// Dummy task string
+			// [{ id: 1, task: "test task", completed: false, deleted: false},{ id: 2, task: "test task2", completed: true, deleted: false},{ id: 3, task: "test tasks", completed: true, deleted: true}];
+		// let todoIndex = 0;
+
+		// Init Alpine local storage
+		document.addEventListener('alpine:init', () => {
+			Alpine.store('todoList', {
+				list: []
+			})
+		})
+
+		// Attempt to load local storage
+		if (localStorage.getItem("todoArray") != null) {
+			$store.todoList = localStorage.getItem("todoIndex");
+		}
+
+		function tickClicked(e) {
+
+		}
+
+		function removeClicked(e) {
+
+		}
+
+		function addNewTodo () {
+			// Create function to make new todo
+			// Verify box IS NOT empty before proceeding
+			let workingText = todoTextBox.value;
+			if (workingText != "" ) {
+				todoArray.push({
+					task: taskText,
+					completed: false
+				});
+
+				$store.todoList = JSON.stringify(todoArray);
+
+				var newRow = document.createElement("tr");
+				newRow.id = 'task' + todoIndex;
+				newRow.className = 'task';
+				newRow.innerHTML = `
+					<th scope="row"><span class="notDone">&#9744;</span></th>
+					<td>` + taskText + `</td>
+					<td><span class="delete">&#10008;</span></td>`;
+				todoTable.appendChild(newRow);
+				localStorage.setItem("todoArray", JSON.stringify(todoArray));
+				localStorage.setItem("todoIndex", todoIndex);
+				// todoIndex += 1;
+				fireToast('New Task added!');
+				todoTextBox.value= "";
+			} else {
+				fireToast("You didn't enter a task!?\nDo you NOT have anything to do?");
+			};
+			
+		}
+	</script>
   	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 </html>
